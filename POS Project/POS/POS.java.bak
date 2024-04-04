@@ -1,0 +1,39 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.File;
+import java.io.*;
+import java.io.IOException;
+import javax.swing.*;
+import javax.swing.JToolBar;
+import javax.imageio.ImageIO;
+import java.util.*;
+import product.IceCreamFlavor;
+import product.Item;
+import product.MixIn;
+import product.MixInAmount;
+import product.MixInFlavor;
+import product.Scoop;
+import product.Container;
+import product.Serving;
+import product.Order;
+import person.Customer;
+import emporium.Emporium;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class POS extends JFrame
+{
+	public static void main(String[] args)
+	{
+		super("POS");
+	}
+}
