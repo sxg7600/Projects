@@ -1,0 +1,166 @@
+package emporium;
+
+import java.util.ArrayList;
+import product.IceCreamFlavor;
+import product.Item;
+import product.MixIn;
+import product.MixInAmount;
+import product.MixInFlavor;
+import product.Scoop;
+import product.Container;
+import product.Serving;
+import product.Order;
+import person.Customer;
+import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+public class Emporium
+{
+	private ArrayList<MixInFlavor> mixInFlavors = new ArrayList<>();
+	private ArrayList<IceCreamFlavor> iceCreamFlavors = new ArrayList<>();
+	private ArrayList<Container> containers = new ArrayList<>();
+	private ArrayList<Order> orders = new ArrayList<>();
+	private ArrayList<Customer> customers = new ArrayList();
+	private MultiMap<Customer, Serving> favoriteServings = new MultiMap<>();
+
+	
+	public Emporium()
+	{
+		this.mixInFlavors = mixInFlavors;
+		this.iceCreamFlavors = iceCreamFlavors;
+		this.containers = containers;
+		this.orders = orders;
+		this.customers = customers;
+	}
+	
+	public Emporium(BufferedReader br) throws IOException
+	{
+		int mixInFlavorsLength = Integer.parseInt(br.readLine());
+		int iceCreamFlavorsLength = Integer.parseInt(br.readLine());
+		int containersLength = Integer.parseInt(br.readLine());
+		int ordersLength = Integer.parseInt(br.readLine());
+		
+		int counter = 0;
+		while(counter != mixInFlavorsLength)
+		{
+			mixInFlavors.add(new MixInFlavor(br));
+			counter += 1;
+		}
+		
+		counter = 0;
+		while(counter != iceCreamFlavorsLength)
+		{
+			iceCreamFlavors.add(new IceCreamFlavor(br));
+			counter += 1;
+		}
+		
+		counter = 0;
+		while(counter != containersLength)
+		{
+			containers.add(new Container(br));
+			counter += 1;
+		}
+		
+		counter = 0;
+		while(counter != ordersLength)
+		{
+			orders.add(new Order(br));
+			counter += 1;
+		}
+		
+	}
+	
+	public void save(BufferedWriter bw) throws IOException
+	{
+		int mixInFlavorsLength = mixInFlavors.size();
+		int iceCreamFlavorsLength = iceCreamFlavors.size();
+		int containersLength = containers.size();
+		int ordersLength = orders.size();
+		
+		bw.write("" + mixInFlavorsLength + '\n');
+		bw.write("" + iceCreamFlavorsLength + '\n');
+		bw.write("" + containersLength + '\n');
+		bw.write("" + ordersLength + '\n');
+		
+		for(int i = 0; i < mixInFlavorsLength; i ++)
+		{
+			mixInFlavors.get(i).save(bw);
+		}
+		
+		for(int i = 0; i < iceCreamFlavorsLength; i ++)
+		{
+			iceCreamFlavors.get(i).save(bw);
+		}
+		
+		for(int i = 0; i < containersLength; i ++)
+		{
+			containers.get(i).save(bw);
+		}
+		
+		for(int i = 0; i < ordersLength; i ++)
+		{
+			orders.get(i).save(bw);
+		}
+	}
+	
+	public void addMixInFlavor(MixInFlavor flavor)
+	{
+		mixInFlavors.add(flavor);
+	}
+	
+	public void addIceCreamFlavor(IceCreamFlavor flavor)
+	{
+		iceCreamFlavors.add(flavor);
+	}
+	
+	public void addContainer(Container container)
+	{
+		containers.add(container);
+	}
+	
+	public void addCustomer(Customer customer)
+	{
+		customers.add(customer);
+	}
+	
+	public void addOrder(Order order)
+	{
+		orders.add(order);
+		Customer customer = order.getCustomer();
+		for(Object serving : order.servings())
+		{
+			favoriteServings.put(customer, (Serving)serving);
+		}
+	}
+	
+	public Object[] mixInFlavors()
+	{
+		return mixInFlavors.toArray();
+	}
+	
+	public Object[] iceCreamFlavors()
+	{
+		return iceCreamFlavors.toArray();
+	}
+	
+	public Object[] containers()
+	{
+		return containers.toArray();
+	}
+	
+	public Object[] customers()
+	{
+		return customers.toArray();
+	}
+	
+	public Object[] orders()
+	{
+		return orders.toArray();
+	}
+	
+	public Object[] favoriteServings(Customer customer)
+	{
+		return favoriteServings.get(customer).toArray();
+	}
+}
