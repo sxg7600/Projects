@@ -158,7 +158,7 @@ public class POS extends JFrame
 
         int bottomBoxX = boxX;
         int bottomBoxY = boxY + boxHeight + cmToPixels(0.1); 
-        int bottomBoxHeight = cmToPixels(5); 
+        int bottomBoxHeight = cmToPixels(4); 
 
         bottomSalesBoxPanel.setBounds(bottomBoxX, bottomBoxY, boxWidth, bottomBoxHeight);
 
@@ -476,39 +476,44 @@ public class POS extends JFrame
 	}
 	
 	private void displayScreenMessage(String message) 
-	{
-		JDialog messageDialog = new JDialog(this, message, Dialog.ModalityType.APPLICATION_MODAL);
-		messageDialog.setUndecorated(true);
-		JLabel messageLabel = new JLabel(message);
-		messageLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
-		messageLabel.setForeground(Color.WHITE);
-		messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	
-		messageDialog.add(messageLabel);
-	
-		int dialogWidth = cmToPixels(10); 
-		int dialogHeight = cmToPixels(15); 
-		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-		int dialogX = (screenWidth - dialogWidth) / 2; 
-		int dialogY = (screenHeight - dialogHeight) / 2; 
-		messageDialog.setBounds(dialogX, dialogY, dialogWidth, dialogHeight);
-	
-		messageDialog.getContentPane().setBackground(new Color(117, 176, 178));
-		
-	
-		Timer timer = new Timer(3000, new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				messageDialog.dispose(); 
-			}
-		});
-		timer.setRepeats(false); 
-		timer.start();
-		messageDialog.setVisible(true);
-	}
+{
+    JDialog messageDialog = new JDialog(this, message, Dialog.ModalityType.APPLICATION_MODAL);
+    messageDialog.setUndecorated(true); 
+
+    JLabel messageLabel = new JLabel(message);
+    messageLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+    messageLabel.setForeground(Color.WHITE);
+    messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    
+    messageDialog.add(messageLabel);
+
+    int dialogWidth = cmToPixels(10); 
+    int dialogHeight = cmToPixels(15); 
+    int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+    int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+    int dialogX = (screenWidth - dialogWidth) / 2; 
+    int dialogY = (screenHeight - dialogHeight) / 2; 
+    messageDialog.setBounds(dialogX, dialogY, dialogWidth, dialogHeight);
+    
+    
+    messageDialog.getContentPane().setBackground(new Color(117, 176, 178));
+    
+    
+    messageDialog.getRootPane().setBorder(BorderFactory.createLineBorder(new Color(0, 105, 106), 2)); 
+
+    Timer timer = new Timer(3000, new ActionListener() 
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            messageDialog.dispose(); 
+        }
+    });
+    timer.setRepeats(false); 
+    timer.start();
+
+    messageDialog.setVisible(true);
+}
 
 	private void createDepartmentButton(Department departmentName)
 	{
@@ -706,6 +711,8 @@ public class POS extends JFrame
 		label = new JLabel(departmentName);
 		label.setFont(new Font("Arial", Font.BOLD, 15));
 		label.setForeground(new Color(35,43,43));
+		
+		labelY += cmToPixels(0.6);
 	
 		int labelX = cmToPixels(1.5); 
 		label.setBounds(labelX, labelY, label.getPreferredSize().width, label.getPreferredSize().height);
@@ -839,7 +846,7 @@ public class POS extends JFrame
 		int amountDueTextWidth = labelAmountDue.getPreferredSize().width;
 		int labelAmountDueX = getWidth() - cmToPixels(41) - amountDueTextWidth; 
 
-		labelAmountDue.setBounds(labelAmountDueX, labelYSummary + 4 * cmToPixels(0.8), amountDueTextWidth, labelAmountDue.getPreferredSize().height);
+		labelAmountDue.setBounds(labelAmountDueX, labelYSummary + 4 * cmToPixels(1.0), amountDueTextWidth, labelAmountDue.getPreferredSize().height);
 
 		getContentPane().add(labelAmountDue);
 		getContentPane().setComponentZOrder(labelAmountDue, 0);
@@ -853,6 +860,8 @@ public class POS extends JFrame
 		String departmentAdd = "Add New Department";
 		JDialog messageDialog = new JDialog(this, departmentAdd, Dialog.ModalityType.APPLICATION_MODAL);
 		messageDialog.setUndecorated(true);
+		messageDialog.getRootPane().setBorder(BorderFactory.createLineBorder(new Color(0, 105, 106), 2));
+
 		
 		int dialogWidth = cmToPixels(10);
 		int dialogHeight = cmToPixels(15);
@@ -875,6 +884,7 @@ public class POS extends JFrame
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT, cmToPixels(0.5), cmToPixels(0.5))); // Adjust margins
 		inputPanel.setBackground(new Color(172, 198, 199));
+
 		
 		JLabel inputLabel = new JLabel("Enter new department:");
 		inputLabel.setFont(new Font("Helvetica", Font.BOLD, 18));
@@ -1062,7 +1072,7 @@ public class POS extends JFrame
 			case "Black":
 				return Color.BLACK;
 			default:
-				return new Color(117, 176, 178);
+				return Color.BLACK; 
 		}
 	}
 }
